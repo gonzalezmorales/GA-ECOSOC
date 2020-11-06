@@ -33,7 +33,6 @@ resolutions = utils.tsv2dictlist('ResolutionLinks/'+ UNBody +'.txt')
 failed = []
 output = []
 
-keywords = ["data", "statistic", "indicator", "geospatial"]
 
 # for each resolution:
 for r in resolutions:

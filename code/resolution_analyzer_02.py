@@ -1,5 +1,18 @@
+import re
+import json
+import utils
+import json
 
-resolutions_json_data = json.load(open(output_path +  output_json))
+#json_file =  'output/GA_74.json'
+json_file =  'output/ECOSOC_2020.json'
+
+
+#txt_file =  'output/GA_74.txt'
+txt_file =  'output/ECOSOC_2020.txt'
+
+resolutions_json_data = json.load(open(json_file))
+
+keywords = ["data", "statistic", "indicator", "geospatial"]
 
 for r in resolutions_json_data:
     print(f'resolution = {r["resolution"]}')
@@ -9,20 +22,35 @@ for r in resolutions_json_data:
     print(f'agendaItem = {r["agendaItem"]}')
 
 #Add resolution information to a tab-delimited text file:
-outF = open(output_path + '\\' + output_txt, "w")
+
+data = []
+
 for r in resolutions_json_data:
+
     for c in r["content"]:
-        has_keywords = ""
+
+        p = dict()
+
+        p["resolution"] = r["resolution"]
+        p['date']=r["date"]
+        p['title']=r["title"]
+        p['session']=r["session"]
+        p['agendaItem']=r["agendaItem"]
+
+        p["content"] = re.sub('\s+',' ',c)
+
+        k_list = []
+
         for k in keywords:
             if k.lower() in c.lower():
-                has_keywords = has_keywords + k + ", "
-        line = r["resolution"]+"\t" \
-               + r["date"]+"\t" \
-               + r["title"].replace('\t','   ')+"\t" \
-               + r["session"]+"\t" \
-               + r["agendaItem"]+"\t" \
-               + c.replace('\t','   ')+"\t" \
-               + has_keywords
-        outF.write(line)
-        outF.write("\n")
-outF.close()    
+                k_list.append(k)
+
+        p['keywords'] = k_list 
+
+        data.append(p)
+
+    
+
+utils.dictList2tsv(data, txt_file)
+
+  
