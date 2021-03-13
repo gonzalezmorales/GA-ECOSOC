@@ -10,25 +10,29 @@ import utils
 
 # choose: GA or ECOSOC?
 
-UNBody = 'ECOSOC' 
+UNBody = 'ECOSOC'
+session = '2020' 
+session_desc = '2020 session'
+
+
 # UNBody = 'GA'
+# session = '75' 
+# session_desc = 'Seventy-fourth session'
 
 if UNBody == 'ECOSOC':
   UNBodyName = 'The Economic and Social Council'
-  documentCodePrfx = 'E/2020/'
-  session = '2020 session'
-  output_json = 'ECOSOC_2020.json'
-  output_txt = 'ECOSOC_2020.txt'  
+  documentCodePrfx = 'E/'+ session
+  output_json = 'ECOSOC_' + session + '.json'
+  output_txt = 'ECOSOC_' + session + '.txt'  
 elif UNBody == 'GA':
   UNBodyName = 'The General Assembly'
-  documentCodePrfx = 'A/RES/74/'
-  session = 'Seventy-fourth session'
-  output_json = 'GA_74.json'
-  output_txt = 'GA_74.txt'  
+  documentCodePrfx = 'A/RES/' + session + '/'
+  output_json = 'GA_' + session + '.json'
+  output_txt = 'GA_' + session + '.txt'  
 
 # read resolution catalogue into dictionary
 
-resolutions = utils.tsv2dictlist('ResolutionLinks/'+ UNBody +'.txt')
+resolutions = utils.tsv2dictlist('ResolutionLinks/' + output_txt)
 
 failed = []
 output = []
@@ -89,3 +93,4 @@ output_path = 'output/'
 #with open('resolutions.json', 'w') as outfile:
 with open(output_path + output_json, 'w') as outfile:
     json.dump(output,outfile, indent=4 )    
+
