@@ -1,1 +1,2 @@
-ga-ecosoc-venv/
+local_env/
+.env
